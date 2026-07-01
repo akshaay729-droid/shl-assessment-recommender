@@ -1,3 +1,12 @@
+---
+title: SHL Assessment Recommender
+emoji: 🤖
+colorFrom: blue
+colorTo: purple
+sdk: docker
+pinned: false
+---
+
 # SHL Assessment Recommender
 
 An AI-powered conversational recommender that suggests the most suitable **SHL assessments** from natural language queries.
