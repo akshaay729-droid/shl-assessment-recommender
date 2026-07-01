@@ -9,29 +9,50 @@ from config import (
     METADATA_PATH,
 )
 
-# Load embedding model
+# -----------------------------
+# Load Embedding Model
+# -----------------------------
+
 model = SentenceTransformer(EMBEDDING_MODEL)
 
-# Load FAISS index
+# -----------------------------
+# Load FAISS Index
+# -----------------------------
+
 index = faiss.read_index(str(FAISS_INDEX_PATH))
 
-# Load assessment metadata
+# -----------------------------
+# Load Assessment Metadata
+# -----------------------------
+
 with open(METADATA_PATH, "rb") as f:
     catalog = pickle.load(f)
 
 
+# -----------------------------
+# Semantic Search
+# -----------------------------
+
 def search_assessments(query, top_k=10):
     """
-    Semantic search over SHL assessments.
+    Perform semantic search over SHL assessments.
+
+    Returns:
+        results : List[dict]
+            Matching assessment metadata.
+
+        scores : List[float]
+            Similarity scores from FAISS.
     """
 
     query_embedding = model.encode([query])
 
-    distances, indices = index.search(query_embedding, top_k)
+    scores, indices = index.search(query_embedding, top_k)
 
     results = []
 
     for idx in indices[0]:
+
         if idx == -1:
             continue
 
@@ -39,6 +60,10 @@ def search_assessments(query, top_k=10):
 
     return results
 
+
+# -----------------------------
+# Test Search
+# -----------------------------
 
 if __name__ == "__main__":
 
@@ -50,10 +75,7 @@ if __name__ == "__main__":
 
     for i, item in enumerate(results, 1):
 
-        print("=" * 50)
-
+        print("=" * 60)
         print(f"{i}. {item['name']}")
-
         print(item["description"])
-
         print(item["link"])

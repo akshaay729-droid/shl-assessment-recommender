@@ -42,7 +42,10 @@ URL:
 
 
 def chat(user_query):
-    results = search_assessments(user_query, top_k=10)
+    results = search_assessments(user_query, top_k=5)
+
+    if not results:
+        return "Sorry, I couldn't find any matching SHL assessments."
 
     context = build_context(results)
 
@@ -57,7 +60,6 @@ User Question:
 {user_query}
 """
 
-    # Try multiple models and retry on temporary server errors
     models = [
         "gemini-2.5-flash",
         "gemini-2.5-flash-lite",
@@ -78,7 +80,6 @@ User Question:
             except errors.ServerError:
                 print(f"{model_name} is busy. Retrying...")
                 time.sleep(3)
-                last_error = None
 
             except Exception as e:
                 last_error = e
