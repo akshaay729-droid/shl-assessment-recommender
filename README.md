@@ -55,18 +55,13 @@ shl-recommender/
 
 ---
 
-# Installation
-
-Clone the repository
+## Installation
 
 ```bash
 git clone https://github.com/akshaay729-droid/shl-assessment-recommender.git
+
 cd shl-assessment-recommender
-```
 
-Install dependencies
-
-```bash
 pip install -r requirements.txt
 ```
 
@@ -76,10 +71,16 @@ Create a `.env` file
 GEMINI_API_KEY=YOUR_API_KEY
 ```
 
-Run the application
+Generate the FAISS index (first run only)
 
 ```bash
-uvicorn app:app --reload
+python embeddings.py
+```
+
+Run the API
+
+```bash
+python -m uvicorn app:app --reload
 ```
 
 Open Swagger UI
@@ -87,8 +88,6 @@ Open Swagger UI
 ```
 http://127.0.0.1:8000/docs
 ```
-
----
 
 # API Endpoints
 
