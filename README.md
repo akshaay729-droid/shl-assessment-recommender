@@ -2,7 +2,7 @@
 
 An AI-powered conversational recommender that suggests the most suitable **SHL assessments** from natural language queries.
 
-The project combines **semantic search (FAISS + Sentence Transformers)** with **Google Gemini** to retrieve relevant SHL assessments and generate intelligent recommendations through a FastAPI REST API.
+The project combines **semantic search (FAISS + Sentence Transformers)** with **Google Gemini** to retrieve relevant SHL assessments and generate intelligent recommendations through a **FastAPI REST API**.
 
 ---
 
@@ -30,7 +30,7 @@ The project combines **semantic search (FAISS + Sentence Transformers)** with **
 
 # Project Structure
 
-```text
+```
 shl-recommender/
 │
 ├── app.py
@@ -40,11 +40,12 @@ shl-recommender/
 ├── catalog.py
 ├── config.py
 ├── prompts.py
+├── utils.py
 ├── requirements.txt
+├── .gitignore
+│
 ├── data/
-│   ├── catalog.json
-│   ├── metadata.pkl
-│   └── shl.index
+│   └── catalog.json
 │
 ├── docs/
 │   ├── swagger-home.png
@@ -53,51 +54,72 @@ shl-recommender/
 └── README.md
 ```
 
+**Note:** `metadata.pkl` and `shl.index` are generated automatically by running `embeddings.py` and therefore are not stored in the repository.
+
 ---
 
-## Installation
+# Installation
+
+## Clone the repository
 
 ```bash
 git clone https://github.com/akshaay729-droid/shl-assessment-recommender.git
 
 cd shl-assessment-recommender
+```
 
+## Install dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
-Create a `.env` file
+## Create a `.env` file
 
 ```env
-GEMINI_API_KEY=YOUR_API_KEY
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
 ```
 
-Generate the FAISS index (first run only)
+## Generate the FAISS index (First Run Only)
 
 ```bash
 python embeddings.py
 ```
 
-Run the API
+This command generates:
+
+- `data/metadata.pkl`
+- `data/shl.index`
+
+## Run the application
 
 ```bash
 python -m uvicorn app:app --reload
 ```
 
-Open Swagger UI
+---
+
+# Swagger Documentation
+
+Open:
 
 ```
 http://127.0.0.1:8000/docs
 ```
 
+---
+
 # API Endpoints
 
 ## Health Check
 
+**GET**
+
 ```
-GET /health
+/health
 ```
 
-Returns
+Example Response
 
 ```json
 {
@@ -109,8 +131,10 @@ Returns
 
 ## Chat Endpoint
 
+**POST**
+
 ```
-POST /chat
+/chat
 ```
 
 Example Request
@@ -134,26 +158,26 @@ Example Response
 
 # System Architecture
 
-```text
-                User Query
-                     │
-                     ▼
+```
+                 User Query
+                      │
+                      ▼
               FastAPI REST API
-                     │
-                     ▼
+                      │
+                      ▼
       Sentence Transformer Embedding
-                     │
-                     ▼
+                      │
+                      ▼
           FAISS Semantic Search
-                     │
-                     ▼
+                      │
+                      ▼
       Top Matching SHL Assessments
-                     │
-                     ▼
-         Google Gemini LLM
-                     │
-                     ▼
-       Natural Language Recommendation
+                      │
+                      ▼
+          Google Gemini LLM
+                      │
+                      ▼
+      Natural Language Recommendation
 ```
 
 ---
@@ -176,10 +200,10 @@ Example Response
 
 - Recommend a Python assessment
 - Java assessment under 20 minutes
-- Personality assessment for managers
-- Assessment for fresh graduates
 - SQL assessment
 - Leadership assessment
+- Personality assessment for managers
+- Assessment for fresh graduates
 - Cognitive ability assessment
 
 ---
@@ -187,13 +211,13 @@ Example Response
 # Future Improvements
 
 - Multi-turn conversation support
-- Better semantic ranking
-- Similarity threshold filtering
+- Similarity threshold filtering for unrelated queries
 - Hybrid keyword + semantic retrieval
+- Conversation memory
 - Docker support
 - Cloud deployment
 - Streaming responses
-- Conversation memory
+- Reranking of retrieved assessments
 
 ---
 
@@ -209,4 +233,4 @@ LinkedIn: https://www.linkedin.com/in/akshatagrawal/
 
 # License
 
-This project was developed for the **SHL AI Intern Take-Home Assignment**.
+This project was developed as part of the **SHL AI Intern Take-Home Assignment**.
