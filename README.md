@@ -234,3 +234,10 @@ LinkedIn: https://www.linkedin.com/in/akshatagrawal/
 # License
 
 This project was developed as part of the **SHL AI Intern Take-Home Assignment**.
+
+## Acknowledgements
+
+- SHL Product Catalog for assessment information.
+- Google Gemini API for conversational response generation.
+- Sentence Transformers for semantic embeddings.
+- FAISS for efficient vector similarity search.
